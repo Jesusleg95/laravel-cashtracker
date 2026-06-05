@@ -61,7 +61,9 @@
     @enderror  
 
     <div class="space-y-2">
-        <label class="font-bold text-2xl block" for="password_confirmation">Repetir Password</label>
+        <label class="font-bold text-2xl block" for="password_confirmation">
+            Repetir Password
+        </label>
 
         <input 
             type="password" 
