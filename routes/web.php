@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -41,6 +42,4 @@ Route::post('/email/verification-notification', function(Request $request){
     return back()->with('suceess', 'Se ha reenviado el correo de verificación');
 })->middleware(['auth', 'throttle:1,1'])->name('verification.send');
 
-Route::get('/dashboard', function() {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [BudgetController::class,'index' ])->middleware(['auth', 'verified'])->name('dashboard');
