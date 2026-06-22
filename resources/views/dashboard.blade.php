@@ -15,7 +15,7 @@
         
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <a 
-                href=""
+                href="{{ route('budgets.create') }}"
                 class="block bg-amber-500 text-white w-full px-5 py-3 rounded-lg font-bold text-xl cursor-pointer text-center"
             >
                 Nuevo Presupuesto
