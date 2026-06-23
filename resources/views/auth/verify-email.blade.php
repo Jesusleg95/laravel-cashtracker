@@ -9,9 +9,9 @@
         Tu cuenta fue creada con éxito. Ahora solo debes confirmarla, revisa tu E-mail.
     </p>    
 
-    @if(session('success'))
+    {{-- @if(session('success'))
         <x-alert :message="session('success')" />
-    @endif
+    @endif --}}
 
     <form
         method="POST"
