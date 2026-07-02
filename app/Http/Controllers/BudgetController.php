@@ -7,6 +7,7 @@ use App\Models\Budget;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class BudgetController extends Controller
 {
@@ -53,9 +54,13 @@ class BudgetController extends Controller
     /**
      * Display the specified resource.
      */
+     #[Authorize('view', 'budget')]
     public function show(Budget $budget)
     {
-        dd('Desde show');
+        $name = 'Jesus';
+        return Inertia::render('Budgets/Show', [
+            'budget' => $budget
+        ]);
     }
 
     /**
