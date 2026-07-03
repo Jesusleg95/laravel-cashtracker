@@ -6,3 +6,5 @@
 - Inertia.js
 - React
 - Typescript
+- Headless UI
+- Zustand

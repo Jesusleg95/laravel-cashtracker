@@ -22,10 +22,15 @@ class Budget extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Relacion con el modelo Expense
+    public function expenses(){
+        return $this->hasMany(Expense::class);
+    }
+
     public function isGeneral() : bool {
         return $this->type === BudgetType::General;
     }
-    
+
     public function isGoal() : bool {
         return $this->type === BudgetType::Goal;
     }
