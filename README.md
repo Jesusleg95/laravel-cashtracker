@@ -8,3 +8,5 @@
 - Typescript
 - Headless UI
 - Zustand
+- Ziggy JS
+- React Toastify

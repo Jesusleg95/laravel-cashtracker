@@ -1,5 +1,6 @@
 import { useExpenseModalStore } from '@/stores/expense-modal-store'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import ExpenseForm from './ExpenseForm'
 
 export default function ExpenseModal() {
 
@@ -25,8 +26,8 @@ export default function ExpenseModal() {
                                 Nuevo Gasto
                             </DialogTitle>
 
-                            {/* Formulario aquí */}
-
+                            <ExpenseForm />
+                            
                         </DialogPanel>
                     </div>
                 </div>
