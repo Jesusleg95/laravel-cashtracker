@@ -9,21 +9,38 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
-    return view('/auth/login');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
 
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/register', [RegisterController::class, 'index'])->name('register');
+    Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
+
+    Route::get('/auth/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/auth/login', [LoginController::class, 'store'])->name('login.store');
+});
+
+Route::post('/auth/logout', [LogoutController::class, 'store'])
+    ->middleware('auth')
+    ->name('logout.store');
+
+// Route::get('/', function () {
+//     return view('/auth/login');
+// });
+
 // Pantalla de regristro
-Route::get('/auth/register', [RegisterController::class, 'index'])->name('register');
-Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
+// Route::get('/auth/register', [RegisterController::class, 'index'])->name('register');
+// Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
 
 // Pantalla de iniciar sesion
-Route::get('/auth/login', [LoginController::class, 'index'])->name('login');
-Route::post('/auth/login', [LoginController::class, 'store'])->name('login.store');
+// Route::get('/auth/login', [LoginController::class, 'index'])->name('login');
+// Route::post('/auth/login', [LoginController::class, 'store'])->name('login.store');
 
 // Cerrar Sesion
-Route::post('/auth/logout', [LogoutController::class, 'store'])->name('logout.store');
+// Route::post('/auth/logout', [LogoutController::class, 'store'])->name('logout.store');
 
 // Verificacion
 Route::get('/email/verify/{id}/{hash}', function(EmailVerificationRequest $request){
@@ -40,7 +57,7 @@ Route::get('/email/verify', function(){
 Route::post('/email/verification-notification', function(Request $request){
     $request->user()->sendEmailVerificationNotification();
 
-    return back()->with('suceess', 'Se ha reenviado el correo de verificación');
+    return back()->with('success', 'Se ha reenviado el correo de verificación');
 })->middleware(['auth', 'throttle:1,1'])->name('verification.send');
 
 
