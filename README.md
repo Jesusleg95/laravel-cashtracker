@@ -10,3 +10,4 @@
 - Zustand
 - Ziggy JS
 - React Toastify
+- React Circular ProgressBar
