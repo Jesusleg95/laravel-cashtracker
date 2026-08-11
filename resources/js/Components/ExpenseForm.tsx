@@ -3,17 +3,21 @@ import { useExpenseModalStore } from "@/stores/expense-modal-store"
 import Ziggy from "@/ziggy"
 import { route } from "ziggy-js"
 import InputError from "./InputError"
+import { DialogTitle } from "@headlessui/react"
 
 export default function ExpenseForm() {
 
     const budget = useExpenseModalStore(state => state.budget)
+    const expense = useExpenseModalStore(state => state.expense)
     const categories = useExpenseModalStore(state => state.categories)
     const closeModal = useExpenseModalStore(state => state.closeModal)
 
-    const { data, setData, post, errors, reset, processing } = useForm({
-        name: '',
-        amount: '',
-        category: ''
+    const isEditing = !!expense
+
+    const { data, setData, post, put, errors, reset, processing } = useForm({
+        name: expense?.name ?? '',
+        amount: expense?.amount ?? '',
+        category: expense?.category ?? ''
     })
 
     if(!budget) return null 
@@ -21,17 +25,39 @@ export default function ExpenseForm() {
     const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if(isEditing && expense){
+            put(route('expenses.update', [budget.id, expense.id]), {
+                onSuccess: () => {
+                    reset()
+                    closeModal()
+                },
+                preserveScroll: true
+            })
+
+            return
+        }
+
         post(route('expenses.store', budget.id), {
             onSuccess: () => {
                 reset()
                 closeModal()
-            }
+            },
+            preserveScroll: true
         })
     }
 
     console.log(errors)
 
     return (
+        <>
+        <DialogTitle 
+            as="h3" 
+            className="text-4xl font-black mt-10 text-center"
+        >
+            {isEditing ? 'Editar Gasto' : 'Nuevo Gasto'}
+        </DialogTitle>
+
+
         <div className='p-10 flex justify-center'>
             <form onSubmit={submit} className='flex flex-col space-y-3 w-full'>
                 <div className='space-y-3'>
@@ -110,9 +136,13 @@ export default function ExpenseForm() {
                         }mt-5 bg-purple-950 w-full p-3 rounded-lg text-white font-bold  text-xl`
                     }
                 >
-                    {processing ? 'Guardando...' : 'Agregar Gasto'}
+                    {processing ? 
+                        'Guardando...' : 
+                        isEditing ? 'Actualizar Gasto' : 'Agregar Gasto'
+                    }
                 </button>
             </form>
         </div>
+        </>
     )
 }
