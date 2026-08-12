@@ -46,8 +46,6 @@ export default function ExpenseForm() {
         })
     }
 
-    console.log(errors)
-
     return (
         <>
         <DialogTitle 
